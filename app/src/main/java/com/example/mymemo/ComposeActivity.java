@@ -12,14 +12,14 @@ import android.widget.EditText;
 public class ComposeActivity extends AppCompatActivity {
     EditText title;
     EditText content;
-    boolean isModifying;
-    int position;
+    int position;           //save the memo's position. if it's a new memo, position is -1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        //Set toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -29,9 +29,11 @@ public class ComposeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            content.setText(intent.getStringExtra("content"));
-            isModifying = true;
             position = intent.getIntExtra("position", -1);
+            if(position != -1) {
+                //in case of existing memo
+                content.setText(intent.getStringExtra("content"));
+            }
         }
     }
 
@@ -50,11 +52,6 @@ public class ComposeActivity extends AppCompatActivity {
             intent.putExtra("content", content.getText().toString());
             intent.putExtra("position", position);
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            if (isModifying) {
-                intent.putExtra("isModifying", true);
-            } else {
-                intent.putExtra("isModifying", false);
-            }
             setResult(Activity.RESULT_OK, intent);
             finish();
         }

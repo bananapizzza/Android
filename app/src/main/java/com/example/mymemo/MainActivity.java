@@ -29,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Set toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("All notes");
         toolbar.setNavigationIcon(R.drawable.round_menu_black_18);
         setSupportActionBar(toolbar);
 
-        listView = (ListView)findViewById(R.id.memoList);
-
+        //Set add floating button and listener
         FloatingActionButton addFloatingButton = (FloatingActionButton) findViewById(R.id.addFloatingButton);
         addFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Set listView and adapter
+        listView = (ListView)findViewById(R.id.memoList);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 String content = data.getStringExtra("content");
                 int position = data.getIntExtra("position", -1);
                 if(position == -1) {
+                    //in case of new memo
                     if (title != null || content != null) {
                         if (title != null) {
                             content = title + "\n" + content;
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 } else {
+                    //in case of existing memo
                     listItems.set(position, content);
                     adapter.notifyDataSetChanged();
                 }
