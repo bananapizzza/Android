@@ -13,28 +13,17 @@ public class ComposeActivity extends AppCompatActivity {
     EditText title;
     EditText content;
     int position;           //save the memo's position. if it's a new memo, position is -1
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
-        //Set toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        title = (EditText) findViewById(R.id.editTextTitle);
-        content = (EditText) findViewById(R.id.editTextContent);
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            position = intent.getIntExtra("position", -1);
-            if(position != -1) {
-                //in case of existing memo
-                content.setText(intent.getStringExtra("content"));
-            }
-        }
+        //Set views
+        setToolbar();
+        setComposeScreen();
+        setText();
     }
 
     @Override
@@ -56,5 +45,31 @@ public class ComposeActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setToolbar(){
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+    }
+
+    private void setComposeScreen(){
+        title = findViewById(R.id.editTextTitle);
+        content = findViewById(R.id.editTextContent);
+    }
+
+    private void setText(){
+        Intent intent = getIntent();
+        if (intent != null) {
+            if(!isNewMemo(intent)) {
+                //in case of existing memo
+                content.setText(intent.getStringExtra("content"));
+            }
+        }
+    }
+
+    private boolean isNewMemo(Intent data){
+        position = data.getIntExtra("position", -1);
+        return position == -1? true : false;
     }
 }

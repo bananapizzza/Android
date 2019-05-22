@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, String.format("onActivityResult, requestCode %d", requestCode));
         switch (requestCode) {
             case COMPOSEACTIVITY:
+                Log.d(TAG, String.format("case COMPOSEACTIVITY");
                 if (resultCode == Activity.RESULT_OK) {
                     if (isNewMemo(data)) {
                         addNewMemo(data);
