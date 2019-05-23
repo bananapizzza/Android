@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, String.format("onActivityResult, requestCode %d", requestCode));
         switch (requestCode) {
             case COMPOSEACTIVITY:
-                Log.d(TAG, String.format("case COMPOSEACTIVITY");
+                Log.d(TAG, "case COMPOSEACTIVITY");
                 if (resultCode == Activity.RESULT_OK) {
                     if (isNewMemo(data)) {
                         addNewMemo(data);
@@ -116,24 +115,20 @@ public class MainActivity extends AppCompatActivity {
     private void setListView() {
         Log.d(TAG, "setListView");
         listView = findViewById(R.id.memoList);
-        List<String> title = new ArrayList<>();
-        List<String> content = new ArrayList<>();
-        for (Memo memo : memoList) {
-            title.add(memo.getTitle());
-            content.add(memo.getContent());
-        }
 
         adapter = new MyListAdapter(
                 this,
-                title.toArray(new String[title.size()]),
-                content.toArray(new String[title.size()])
-        );
+                memoList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ComposeActivity.class);
-                String content = ((TextView) view).getText().toString();
+                View titleView = view.findViewById(R.id.title);
+                View contentView = view.findViewById(R.id.content);
+                String title = ((TextView) titleView).getText().toString();
+                String content = ((TextView) contentView).getText().toString();
+                intent.putExtra("title", title);
                 intent.putExtra("content", content);
                 intent.putExtra("position", position);
                 startActivityForResult(intent, COMPOSEACTIVITY);
@@ -147,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNewMemo(Intent data) {
+        Log.d(TAG, "addNewMemo");
         String title = data.getStringExtra("title");
         String content = data.getStringExtra("content");
         Memo memo = new Memo(title, content);
@@ -155,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeExistingMemo(Intent data) {
+        Log.d(TAG, "changeExistingMemo");
         String title = data.getStringExtra("title");
         String content = data.getStringExtra("content");
         int position = data.getIntExtra("position", -1);

@@ -63,6 +63,7 @@ public class ComposeActivity extends AppCompatActivity {
         if (intent != null) {
             if(!isNewMemo(intent)) {
                 //in case of existing memo
+                title.setText(intent.getStringExtra("title"));
                 content.setText(intent.getStringExtra("content"));
             }
         }

@@ -7,26 +7,43 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-// TODO: test with ArrayAdapter<Memo>
-public class MyListAdapter extends ArrayAdapter<String> {
-    private final Activity context;
-    private final String[] title;
-    private final String[] content;
+import java.util.List;
 
-    public MyListAdapter(Activity context, String[] title, String[] content){
-        super(context, R.layout.list_item, title);
+// TODO: test with ArrayAdapter<Memo>
+public class MyListAdapter extends ArrayAdapter<Memo> {
+    private final Activity context;
+    //private final String[] title;
+    //private final String[] content;
+    private List<String> title;
+    private List<String> content;
+    private List<Memo> memoList;
+
+//    public MyListAdapter(Activity context, String[] title, String[] content){
+//        super(context, R.layout.list_item, title);
+//        this.context = context;
+//        this.title = title;
+//        this.content = content;
+//    }
+
+    public MyListAdapter(Activity context, List<Memo> memos){
+        super(context, R.layout.list_item, memos);
         this.context = context;
-        this.title = title;
-        this.content = content;
+        memoList = memos;
     }
 
+    @Override
     public View getView(int position, View view, ViewGroup parent){
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.list_item, null, true);
-        TextView titleText = rowView.findViewById(R.id.title);
-        TextView contentText = rowView.findViewById(R.id.content);
-        titleText.setText(title[position]);
-        contentText.setText(content[position]);
-        return rowView;
+        View listItem = view;
+        if(listItem == null) {
+            listItem = inflater.inflate(R.layout.list_item, parent, false);
+        }
+        Memo currentMemo = memoList.get(position);
+
+        TextView titleText = listItem.findViewById(R.id.title);
+        TextView contentText = listItem.findViewById(R.id.content);
+        titleText.setText(currentMemo.getTitle());
+        contentText.setText(currentMemo.getContent());
+        return listItem;
     }
 }
