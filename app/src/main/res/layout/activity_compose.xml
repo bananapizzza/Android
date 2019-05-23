@@ -6,35 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ComposeActivity">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#E91E63"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/Theme.AppCompat.Light" />
-
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Title"
-        android:inputType="text" />
-
-    <EditText
-        android:id="@+id/editTextContent"
+        android:name="com.example.mymemo.ToolbarFragment"
+        android:id="@+id/toolbarFragment"/>
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editTextTitle"
-        android:layout_marginTop="0dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Notes"
-        android:inputType="textMultiLine" />
-
+        android:name="com.example.mymemo.TextAreaFragment"
+        android:id="@+id/textAreaFragment"
+        android:layout_below="@+id/toolbarFragment"/>
 </RelativeLayout>

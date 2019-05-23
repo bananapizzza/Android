@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private final String TAG = this.getClass().getName();
     private static final int COMPOSEACTIVITY = 100;
     ListView listView;
     MyListAdapter adapter;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     List<Memo> memoList;
     Toolbar toolbar;
     FloatingActionButton addFloatingButton;
-    private final String TAG = this.getClass().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         Memo memo = new Memo(title, content);
         memoList.add(memo);
         adapter.notifyDataSetChanged();
+        memoDAO.insertMemo(memo);
     }
 
     private void changeExistingMemo(Intent data) {
@@ -158,5 +159,6 @@ public class MainActivity extends AppCompatActivity {
         Memo memo = new Memo(title, content);
         memoList.set(position, memo);
         adapter.notifyDataSetChanged();
+        memoDAO.updateMemo(memo);
     }
 }
